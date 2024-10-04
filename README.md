@@ -104,6 +104,15 @@ dtoverlay=disable-bt
 - Sauvegarder les modifications en appuyant sur `Ctrl + Shift + o`
 - Quitter le fichier en appuyant sur `Ctrl + Shift + x`
 
+- Dans un terminal taper ensuite la commande suivante pour ouvrir le fichier cmdline.txt:
+```
+sudo nano /boot/firmware/cmdline.txt
+```
+- Trouver l'élément correspondant au `serial 0` qui ressemble à quelque chose comme `console=serial0,115200` et le supprimer (avec le baudrate).
+- Sauvegarder les modifications en appuyant sur `Ctrl + Shift + o`
+- Quitter le fichier en appuyant sur `Ctrl + Shift + x`
+
+
 - Aller dans le menu principal (icone avec la framboise en haut à gauche de l'écran)
 - Cliquer sur `Préférence` puis `Configuration du Raspberry Pi`
 - Dans l'onglet `Interface`
