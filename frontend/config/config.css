@@ -1,1 +1,20 @@
 @import url('../styles.css');
+
+.parameter {
+  margin-bottom: var(--margin-space-normal);
+  display: flex;
+}
+
+.container {
+  width: 90%;
+}
+
+#rebootButton {
+  margin-top: var(--margin-space-small);
+}
+
+.parameter-element {
+  margin: var(--margin-space-small);
+  align-items: center;
+  vertical-align: middle;
+}
