@@ -14,7 +14,7 @@ async function fetchConfig() {
 
     // Assuming the response structure is { data: { ... }, status: "ok" }
     if (data.status === "ok") {
-      const configContainer = document.getElementById("container");
+      const configContainer = document.getElementById("configForm");
       configsData = data.data;
 
       // Loop through each configuration parameter and create corresponding form elements
