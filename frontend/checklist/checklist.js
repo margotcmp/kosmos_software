@@ -4,110 +4,106 @@ let serverUrl = "http://10.42.0.1:5000";
 // let serverUrl = "http://10.29.225.198:5000";
 
 // Variable to store configuration data fetched from the server
-let listData; 
+let listData;
 
-// Function to fetch the list
-function fetchList() {
-  try {
-    const myList = document.querySelector("section");
+const materials = [
+	"Batterie chargée",
+	"Batterie de rechange",
+	"Clé USB vide",
+	"Flotteur à casier",
+	"Bout 5m",
+	"Jeu de bout",
+	"Gréement",
+	"Lunette de Calfat",
+	"Tube caméra",
+	"Réducteur",
+	"Trépied",
+	"Fagot de colsons",
+	"Plombs (x2)",
+	"Pompe à vide",
+	"Aimants (x2)",
+	"Ardoise et feutre",
+	"Serviette microfibre",
+	"Fiche terrain",
+	"Stylo",
+	"GPS",
+	"Profondimètre de plongée",
+	"Gaffe",
+	"Jeu de clés allen",
+	"Jeu de clés à cliquet",
+	"Clé de 8",
+	"Clés de 13 (x2)",
+	"Pince plate",
+	"Tournevis plat",
+	"Vis M5 (x2)",
+	"Ecrous M5 (x2)",
+	"Rondelle M8",
+	"Bouchon du vent",
+	"Tube de graisse (silicone)"
+];
 
-      fetch("list.json")
-	.then((response) => {
-	  if (!response.ok) {
-	    throw new Error(`HTTP error, status = ${response.status}`);
-	  }
-	  return response.json();
-	})
-	.then ((data) => {
-	  for (let element of data.materiel) {
-	    let listItem = document.createElement("ul");
-	    
-	    let input = document.createElement("input");
-	    input.setAttribute("type", "checkbox");
-	    input.setAttribute("id", element);
-	    input.setAttribute("name", "materiel");
-	    input.classList.add("list-element");
-	    input.value = myList[element];
-	    
-	    let label = document.createElement("label");
-	    label.setAttribute("for", "materiel" + element);
-	    label.classList.add("list-element");
-	    label.textContent = element;
-	    
-	    listItem.append(
-			    input,
-			    label
-			    )
-	    
-	    myList.appendChild(listItem);
-	    listData = myList;
-	    listItem='';
-	
-	    }
-	    
-	    //bouton reset	
-	    const resetButton = document.createElement("button");
-	    resetButton.setAttribute("id", "resetButton");
-	    resetButton.setAttribute("type", "button");
-	    resetButton.textContent = "Reset";
-	    resetButton.classList.add("reboot");
-	    resetButton.addEventListener("click", function (event) {
-	      console.log("reset ok");
-	      event.preventDefault(); // Prevent the default form submission behavior
-	      localStorage.clear();
-	      window.location.reload();
-	      
-	    });
-	    myList.appendChild(resetButton);
-	    
-	    change();
-	    	  
-	  })
-	    
-	}
+document.addEventListener("DOMContentLoaded", function () {
+  const list = document.getElementById("checkList");
 
-  catch(error){
-    const p = document.createElement("p");
-    p.appendChild(document.createTextNode(`Error: ${error.message}`));
-    document.body.insertBefore(p, myList);
+  function initLocalStorage() {
+    if (!localStorage.getItem("materials")) {
+      localStorage.setItem("materials", JSON.stringify([]));
+    }
   }
-}
 
-function change(){
-  var box = document.querySelectorAll("input[type='checkbox']");
-  var selectbox = [];
-  var savebox = localStorage.getItem('selectbox');
-  
-  //vérification si il y a des cases cochées en mémoire
-  if (savebox) {
-    selectbox.push(...JSON.parse(savebox));
-    }
-    
-  //mise à jour des états en fonction des cases en mémoire
-  box.forEach(box => {
-    if (selectbox.includes(box.id)){
-      box.checked = true;
+  function getMaterialsFromLocalStorage() {
+    return JSON.parse(localStorage.getItem("materials")) || [];
+  }
+
+  function saveMaterialsToLocalStorage(materials) {
+    localStorage.setItem("materials", JSON.stringify(materials));
+  }
+
+  initLocalStorage();
+  let materialsChose = getMaterialsFromLocalStorage();
+
+  materials.forEach((element, index) => {
+    let listItem = document.createElement("li");
+
+    let input = document.createElement("input");
+    input.setAttribute("type", "checkbox");
+    input.setAttribute("id", "material" + index);
+    input.setAttribute("name", "material" + index);
+    input.value = element;
+
+    let label = document.createElement("label");
+    label.setAttribute("for", "material" + index);
+    label.textContent = element;
+
+    listItem.append(input, label);
+    list.append(listItem);
+  });
+
+  const resetButton = document.createElement("button");
+  resetButton.setAttribute("id", "resetButton");
+  resetButton.setAttribute("type", "reset");
+  resetButton.textContent = "Reset";
+  resetButton.addEventListener("click", function () {
+    localStorage.clear();
+    materialsChose = [];
+  });
+  list.appendChild(resetButton);
+
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    if (materialsChose.includes(checkbox.value)) {
+      checkbox.checked = true;
     }
   });
-    
-  box.forEach(box => {
-    box.addEventListener('change', () => {
-      if(box.checked) {
-	console.log("change ok");
-	selectbox.push(box.id);
+
+  list.addEventListener("change", function (event) {
+    if (event.target.type === "checkbox") {
+      if (event.target.checked) {
+        materialsChose.push(event.target.value);
       } else {
-	var indexSelectbox = selectbox.indexOf(box.id)
-	if (indexSelectbox !== -1){
-	  selectbox.splice(indexSelectbox, 1);
-	}
+        materialsChose = materialsChose.filter(material => material !== event.target.value);
       }
-      localStorage.setItem('selectbox', JSON.stringify(selectbox));
-      console.log("selectbox", selectbox);
-      console.log("savebox", savebox);
-    });
+      saveMaterialsToLocalStorage(materialsChose);
+    }
   });
-}
-
-
-// Fetch the list when the page loads
-fetchList();
+});
