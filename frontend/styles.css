@@ -78,6 +78,17 @@ button {
   border-radius: var(--border-thick);
 }
 
+button:disabled,
+button[disabled]{
+  background-color: var(--color-hover);
+  color: var(--color-primary);
+}
+
+button:disabled,
+button[disabled]{
+  cursor: unset;  
+}
+
 button:hover {
   background-color: var(--color-hover);
 }
@@ -85,6 +96,18 @@ button:hover {
 h3 {
   font-size: var(--font-size-big);
   margin-bottom: var(--margin-space-small);
+}
+
+#cameraContainer {
+  width: 80%;
+}
+
+#cameraContainer button{
+  padding: var(--padding-space-small) var(--padding-space-normal);
+}
+
+.titleCamera {
+  margin-top: var(--margin-space-normal);
 }
 
 @media (min-width: 480px) and (max-width: 767px) {

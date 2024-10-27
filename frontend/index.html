@@ -19,28 +19,30 @@
 				<li><a href="./campagne/campagne.html">Campagne</a></li>
 		</nav>
 	</header>
-	<div class="container">
-		<h3>State</h3>
-		<p>Etat : <span id="etat">Unknown</span></p>
-	</div>
-	<div class="container">
-		<h3>Buttons</h3>
-		<button onClick="start()">Start</button>
-		<button onClick="stop()">Stop</button>
-	</div>
-	<div class="container">
-		<h3>Live video</h3>
-		<button onClick="setLive(true)">Start Live</button>
-		<button onClick="setLive(false)">Stop Live</button>
-		<br>
-		<img id="frame">
-	</div>
+	<section>
+		<div id="cameraContainer" class="container">
+			<h3>State</h3>
+			<p>Etat : <span id="etat">Unknown</span></p>
+	
+			<h3 class="titleCamera">Buttons to record</h3>
+			<button id="startCamera" onClick="start()">Start</button>
+			<button id="stopCamera" onClick="stop()">Stop</button>
+	
+			<h3 class="titleCamera">Live video</h3>
+			<button id="startLive" onClick="setLive(true)">Start Live</button>
+			<button id="stopLive" onClick="setLive(false)">Stop Live</button>
+			<br>
+	
+			<img id="frame">
+	
+			<h3 class="titleCamera">Shutdown KOSMOS</h3>
+			<button id="shutdown" onClick="shutdown()">Shutdown</button>
+		</div>
+	</section>
+	
 	<script src="cameraScript.js"></script>
 	<script src="./config/state.js"></script>
-	<div class="container">
-		<h3>Shutdown KOSMOS</h3>
-		<button onClick="shutdown()">Shutdown</button>
-	</div>
+
 </body>
 
 </html>
