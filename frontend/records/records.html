@@ -20,18 +20,22 @@
     </nav>
   </header>
 
-  <div class="container">
-    <h3>State</h3>
-    <p>Etat : <span id="etat">Unknown</span></p>
-  </div>
+  <section>
+    <div class="container">
+      <h3>State</h3>
+      <p>Etat : <span id="etat">Unknown</span></p>
 
-  <table border="1" id="fileTable">
-    <tr>
-      <td>Filename</td>
-      <td>Size (MB)</td>
-      <td>End Time of Recording</td>
-    </tr>
-  </Table>
+      <table id="fileTable">
+        <thead>
+          <tr>
+            <td>Filename</td>
+            <td>Size (MB)</td>
+            <td>End Time of Recording</td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </section>
 
   <script src="records.js"></script>
   <script src="../config/state.js"></script>

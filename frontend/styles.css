@@ -18,7 +18,10 @@
   --font-family-style: "Arial", sans-serif;
   --color-primary: #333;
   --color-hover:#757474;
-  --color-secondary: #fff; 
+  --color-secondary: #fff;
+  --color-complementary: #ffd9ae;
+  --font-weight-light: 400;
+  --font-weight-bold: 600;
 }
 
 *{
