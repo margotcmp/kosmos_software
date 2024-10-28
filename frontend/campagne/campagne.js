@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const label = document.createElement("label");
         label.setAttribute("for", field.id);
         label.textContent = field.label + ": ";
-        
+
         const input = document.createElement("input");
         input.id = field.id;
         input.placeholder = field.placeholder;
