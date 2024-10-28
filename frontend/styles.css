@@ -25,7 +25,7 @@
   --font-weight-bold: 600;
 }
 
-*{
+* {
   box-sizing: border-box;
   font-family: var(--font-family-style);
   line-height: var(--line-heigth-normal);
@@ -36,27 +36,51 @@
 header {
   background-color: var(--color-primary);
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.menu-icon {
+  margin: var(--padding-space-normal);
+  width: var(--font-size-big);
+  height: var(--font-size-big);
+  cursor: pointer;
+}
+
+.svg-icon {
+  width: 100%;
+  height: 100%;
 }
 
 nav ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--margin-space-normal);
   list-style-type: none;
-  padding: var(--padding-space-small);
+  display: none;
+  gap: var(--padding-space-small);
+}
+
+.menu-toggle:checked + .menu-icon + nav ul {
+  display: flex;
+  flex-direction: column;
 }
 
 nav ul li a {
-  padding: var(--padding-space-small);
+  padding: var(--padding-space-normal);
   text-decoration: none;
   color: var(--color-secondary);
 }
 
-nav ul li a:hover {
-  background-color: var(--color-hover);
-}
-
 section {
+  margin-top: var(--margin-space-large);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,7 +91,7 @@ section {
   border-radius: var(--border-thick);
   max-width: 800px;
   padding: var(--padding-space-small);
-  margin: var(--margin-space-xsmall);
+  margin: var(--margin-space-small);
 }
 
 button {
@@ -80,14 +104,10 @@ button {
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
   background-color: var(--color-hover);
   color: var(--color-primary);
-}
-
-button:disabled,
-button[disabled]{
-  cursor: unset;  
+  cursor: unset;
 }
 
 button:hover {
@@ -103,7 +123,7 @@ h3 {
   width: 80%;
 }
 
-#cameraContainer button{
+#cameraContainer button {
   padding: var(--padding-space-small) var(--padding-space-normal);
 }
 
@@ -112,16 +132,31 @@ h3 {
 }
 
 @media (min-width: 480px) and (max-width: 767px) {
+
   .container {
     margin: var(--margin-space-normal);
     padding: var(--padding-space-normal);
   }
 }
 
-@media (min-width: 768px)  {
+  @media (min-width: 768px)  {
   .container {
     margin: var(--margin-space-large);
     padding: var(--padding-space-large);
   }
-  
+
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    gap: var(--margin-space-normal);
+    padding: var(--padding-space-small);
+  }
+
+  nav ul li a:hover {
+    background-color: var(--color-hover);
+  }
+
+  .menu-icon {
+    display: none;
+  }
 }
