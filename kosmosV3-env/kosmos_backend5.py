@@ -34,8 +34,7 @@ class Server:
         self.app.add_url_rule("/changeCampagne", view_func=self.changeCampagne,methods=['POST'])
         self.app.add_url_rule("/getCampagne", view_func=self.getCampagne)
         self.app.add_url_rule("/frame", view_func=self.image)
-        # self.app.add_url_rule("/get_metadata", view_func=self.get_metadata)
-        # self.app.add_url_rule("/update_metadata", view_func=self.update_metadata, methods=['POST'])
+        
 
     def run(self) :
         logging.info("Server is running !")
@@ -63,9 +62,19 @@ class Server:
         if(self.myMain.state==KState.WORKING):
             self.myMain.record_event.set()
             self.myMain.button_event.set()
-            return {
-                "status" : "ok"
+            try:
+                metadata_path = GIT_PATH + "infoStationTemplate.json"
+                with open(metadata_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    return {
+                        "status" : "ok",
+                        "metadata" : data
+                    }
+            except :
+                return {
+                "status" : "error"
             }
+
         else :
             return {
                 "status" : "error"

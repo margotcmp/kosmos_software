@@ -38,8 +38,9 @@ async function stop() {
   try {
     const response = await fetch(serverUrl + "/stop");
     const body = await response.json();
-    console.log(body);
-    window.location.href = "./metadata.html";
+    //console.log(body);
+    localStorage.setItem("metaData", JSON.stringify(body.metadata));
+    window.location.href = "./metadata/metadata.html";
   } catch (error) {
     console.error("Error stopping the camera:", error);
   } finally {
