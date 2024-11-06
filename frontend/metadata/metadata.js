@@ -1,14 +1,16 @@
+let serverUrl = "http://10.42.0.1:5000";
+
 const defaultMetaData = {
-  video: {
-    codeStation: "",
-    heureDict: { heure: 0, minute: 0, second: 0 },
-    gpsDict: { site: "", latitude: 0.0, longitude: 0.0 },
-    ctdDict: { depth: 0.0, temperature: 0.0, salinity: "" },
-    astroDict: { moon: "NL", tide: "BM", coefficient: 0 },
-    meteoAirDict: { sky: "", wind: 0, direction: "N", atmPressure: 0.0, airTemp: 0.0 },
-    meteoMerDict: { seaState: "", swell: 0 },
-    analyseDict: { exploitability: "", habitat: "", fauna: "", visibility: "" },
-  },
+    video: {
+        codeStation: "",
+        heureDict: { heure: 0, minute: 0, second: 0 },
+        gpsDict: { site: "", latitude: 0.0, longitude: 0.0 },
+        ctdDict: { depth: 0.0, temperature: 0.0, salinity: "" },
+        astroDict: { moon: "NL", tide: "BM", coefficient: 0 },
+        meteoAirDict: { sky: "", wind: 0, direction: "N", atmPressure: 0.0, airTemp: 0.0 },
+        meteoMerDict: { seaState: "", swell: 0 },
+        analyseDict: { exploitability: "", habitat: "", fauna: "", visibility: "" },
+    },
 };
 
 function loadMetaData() {
@@ -26,6 +28,32 @@ function loadMetaData() {
   }
   return metaData;
 }
+
+
+/*
+async function loadMetadataFromBackend()
+{
+    try {
+        const response = await fetch("http://0.0.0.0:5000/get_metadata");
+        const result = await response.json();
+        
+        if (result.status === "success") {
+            const metadata = result.data;
+            localStorage.setItem("metaData", JSON.stringify(metadata));
+            console.log("Metadata loaded from backend:", metadata);
+            return metadata;
+        } else {
+            console.warn("Using default metadata due to backend error.");
+            return defaultMetaData;
+        }
+
+    } catch (error) {
+        console.error("Error loading metadata from backend:", error);
+        return defaultMetaData;
+    }
+}
+*/
+
 
 function validateMetaData(data) {
   return data && data.video && data.video.heureDict && data.video.gpsDict;
@@ -91,6 +119,52 @@ function generateTable() {
     document.getElementById("formMetaData").addEventListener("submit", submitForm);
   });
 }
+
+/*
+async function generateTable()
+{
+    const metaData = await loadMetadataFromBackend();
+    const table = document.getElementById("metadataTable");
+
+    Object.entries(metaData.video).forEach(([key, value]) => {
+        const sectionTitle = sectionTitles[key] || key;
+
+        const titleRow = document.createElement("tr");
+        const titleCell = document.createElement("td");
+        titleCell.colSpan = 2;
+        titleCell.textContent = sectionTitle;
+        titleCell.classList.add("section-title");
+
+        titleCell.addEventListener("click", () => {
+            sectionContent.classList.toggle("collapsed");
+            titleCell.classList.toggle("collapsed");
+        });
+
+        titleRow.appendChild(titleCell);
+        table.appendChild(titleRow);
+
+        const sectionContent = document.createElement("tbody");
+        sectionContent.classList.add("section-content");
+
+        if (key === "codeStation") {
+            createFormRow(sectionContent, key, "Station Code", value);
+        } else if (key === "heureDict") {
+            createTimeField(sectionContent, value);
+        } else if (typeof value === "object" && !Array.isArray(value)) {
+            Object.entries(value).forEach(([subKey, subValue]) => {
+                createFormRow(sectionContent, key, subKey, subValue);
+            });
+        } else {
+            createFormRow(sectionContent, key, value);
+        }
+
+        table.appendChild(sectionContent);
+    });
+
+    document.getElementById("formMetaData").addEventListener("submit", submitForm);
+}
+*/
+
 
 function createTimeField(container, timeValues) {
   const row = document.createElement("tr");
@@ -205,3 +279,53 @@ async function submitForm(event) {
 }
 
 document.addEventListener("DOMContentLoaded", generateTable);
+
+/*
+async function submitForm(event) 
+{
+    event.preventDefault();
+
+    const metaData = {};
+    const tableRows = document.querySelectorAll("#metadataTable tr");
+
+    tableRows.forEach(row => {
+        const inputs = row.querySelectorAll("input, select");
+        inputs.forEach(input => {
+            if (input.id && input.value) {
+                const keys = input.id.split('.');
+                let current = metaData;
+                keys.forEach((key, index) => {
+                    if (index === keys.length - 1) {
+                        current[key] = input.value;
+                    } else {
+                        current[key] = current[key] || {};
+                        current = current[key];
+                    }
+                });
+            }
+        });
+    }); // pas très sur pour cete fonction
+
+    try {
+        const response = await fetch("http://0.0.0.0:5000/update_metadata", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(metaData),
+        });
+
+        if (response.ok) {
+            alert("Metadata saved successfully!");
+        } else {
+            alert("Error saving metadata.");
+        }
+
+    } catch (error) {
+        console.error("Failed to save metadata:", error);
+        alert("Failed to save metadata.");
+    }
+}
+
+
+*/
